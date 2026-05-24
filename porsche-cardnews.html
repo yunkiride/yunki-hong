@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>YUNKIRIDE — 포르쉐, 전기차였다</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1c1c1c;
+    font-family: 'Noto Sans KR', sans-serif;
+    padding: 60px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+  .card-label {
+    color: #888;
+    font-size: 14px;
+    letter-spacing: 2px;
+    margin-bottom: -20px;
+  }
+  .card {
+    width: 1080px;
+    height: 1350px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    color: #fff;
+  }
+
+  /* 풀블리드 배경 사진 */
+  .bg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* 워터마크 (전 페이지 공통) */
+  .watermark {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+    font-size: 26px;
+    letter-spacing: 1px;
+    color: #fff;
+    z-index: 5;
+  }
+  .watermark .red { color: #D5001C; }
+
+  /* ===== 1. 표지 (Card 1) ===== */
+  .cover-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      rgba(0,0,0,0.55) 0%,
+      rgba(0,0,0,0.15) 35%,
+      rgba(0,0,0,0.55) 70%,
+      rgba(0,0,0,0.85) 100%);
+  }
+  .cover-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 60px;
+    z-index: 2;
+  }
+  .cover-title {
+    font-weight: 900;
+    font-size: 124px;
+    line-height: 1.1;
+    letter-spacing: -2px;
+  }
+  .cover-sub {
+    font-weight: 400;
+    font-size: 32px;
+    margin-top: 30px;
+    color: rgba(255,255,255,0.85);
+    letter-spacing: -0.5px;
+  }
+  .cover-wm {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* ===== 2. 본문 페이지 (Card 2~11) — 풀블리드 + 하단 그라데이션 + 화이트 텍스트 ===== */
+  .body-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      rgba(0,0,0,0.15) 0%,
+      rgba(0,0,0,0.05) 30%,
+      rgba(0,0,0,0.65) 65%,
+      rgba(0,0,0,0.95) 100%);
+  }
+  .body-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 70px 80px;
+    z-index: 2;
+  }
+  .label {
+    font-size: 22px;
+    font-weight: 500;
+    color: #D5001C;
+    letter-spacing: 5px;
+    margin-bottom: 22px;
+  }
+  .subtitle {
+    font-size: 58px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.2;
+    letter-spacing: -1.5px;
+    margin-bottom: 28px;
+  }
+  .body-text {
+    font-size: 30px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.92);
+    line-height: 1.6;
+    letter-spacing: -0.3px;
+  }
+  .wm-top-right {
+    position: absolute;
+    top: 50px;
+    right: 60px;
+  }
+  .page-num {
+    position: absolute;
+    bottom: 30px;
+    right: 70px;
+    font-size: 18px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 400;
+    letter-spacing: 2px;
+    z-index: 3;
+  }
+
+  /* 인트로 (Card 2) — 본문과 동일 스타일이지만 main 타이틀이 더 큼 */
+  .intro-subtitle {
+    font-size: 68px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.2;
+    letter-spacing: -1.5px;
+    margin-bottom: 28px;
+  }
+
+  /* ===== 12. 클로징 ===== */
+  .closing-bg {
+    filter: brightness(0.5);
+  }
+  .closing-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 60px;
+    z-index: 2;
+  }
+  .closing-head {
+    font-size: 32px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 30px;
+    letter-spacing: -0.5px;
+  }
+  .closing-big {
+    font-size: 96px;
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: -2px;
+    margin-bottom: 50px;
+  }
+  .closing-cta {
+    font-size: 26px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.7;
+    letter-spacing: -0.3px;
+  }
+  .closing-cta strong {
+    font-weight: 700;
+    color: #fff;
+  }
+  .closing-handle {
+    margin-top: 40px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #D5001C;
+    letter-spacing: 1px;
+  }
+  .closing-wm {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ CARD 1: 표지 ============ -->
+<div class="card-label">CARD 01 — COVER</div>
+<div class="card">
+  <img class="bg-img" src="photos/photo-014.jpg" alt="">
+  <div class="cover-overlay"></div>
+  <div class="cover-content">
+    <div class="cover-title">포르쉐,<br>전기차였다.</div>
+    <div class="cover-sub">슈투트가르트 뮤지엄에서 본 6가지</div>
+  </div>
+  <div class="watermark cover-wm">YUNKI<span class="red">RIDE</span></div>
+</div>
+
+<!-- ============ CARD 2: 인트로 ============ -->
+<div class="card-label">CARD 02 — INTRO</div>
+<div class="card">
+  <img class="bg-img" src="photos/photo-024.jpg" alt="">
+  <div class="body-overlay"></div>
+  <div class="watermark wm-top-right">YUNKI<span class="red">RIDE</span></div>
+  <div class="body-content">
+    <div class="label">INTRO</div>
+    <div class="intro-subtitle">독일 슈투트가르트,<br>포르쉐의 본진.</div>
+    <div class="body-text">75년 브랜드 헤리티지가 한 자리에 모인 곳, 포르쉐 뮤지엄. 그곳에서 마주한 사실들은 우리가 알던 포르쉐와는 조금 달랐다.</div>
+  </div>
+  <div class="page-num">02 / 12</div>
+</div>
+
+<!-- ============ CARD 3: 첫 차/전기 ============ -->
+<div class="card-label">CARD 03 — FACT</div>
+<div class="card">
+  <img class="bg-img" src="photos/photo-017.jpg" alt="">
+  <div class="body-overlay"></div>
+  <div class="watermark wm-top-right">YUNKI<span class="red">RIDE</span></div>
+  <div class="body-content">
+    <div class="label">FACT</div>
+    <div class="subtitle">첫 포르쉐는,<br>전기차였다.</div>
+    <div class="body-text">1900년. 25살의 페르디난트 포르쉐가 만든 'Lohner-Porsche'. 휠 안에 모터를 넣은 인-휠 전기차였다. 가솔린이 자동차의 전부였던 시대에, 포르쉐는 전기로 시작했다.</div>
+  </div>
+  <div class="page-num">03 / 12</div>
+</div>
+
+<!-- ============ CARD 4: 비틀 ============ -->
+<div class="card-label">CARD 04 — FACT</div>
+<div class="card">
+  <img class="bg-img" src="photos/photo-023.jpg" alt="">
+  <div class="body-overlay"></div>
+  <div class="watermark wm-top-right">YUNKI<span class="red">RIDE</span></div>
+  <div class="body-content">
+    <div class="label">FACT</div>
+    <div class="subtitle">양산차의 시작은 비틀과<br>80% 똑같았다.</div>
+    <div class="body-text">페르디난트 포르쉐는 폭스바겐 비틀의 설계자였다. 1939년 그가 만든 'Porsche Type 64'는 비틀의 섀시와 엔진을 그대로 가져왔다. 두 차의 DNA는 사실상 형제다.</div>
+  </div>
+  <div class="page-num">04 / 12</div>
+</div>
+
+<!-- ============ CARD 5: 비틀 부연 ============ -->
+<div class="card-label">CARD 05 — DETAIL</div>
+<div class="card">
+  <img class="bg-img" src="photos/photo-012.jpg" alt="">
+  <div class="body-overlay"></div>
+  <div class="watermark wm-top-right">YUNKI<span class="red">RIDE</span></div>
+  <div class="body-content">
+    <div class="label">DETAIL</div>
+    <div class="subtitle">비틀이 없었다면,<br>911도 없었다.</div>
+    <div class="body-text">비틀의 RR(후방 엔진·후륜구동) 레이아웃은 그대로 356, 그리고 911로 이어졌다. 80년이 지난 지금도 911의 엔진은 차체 뒤쪽에 있다.</div>
+  </div>
+  <div class="page-num">05 / 12</div>
+</div>
+
+<!-- ============ CARD 6: 레이싱 DNA 전환 ============ -->
+<div class="card-label">CARD 06 — FACT</div>
+<div class="card">
+  <img class="bg-img" src="photos/photo-021.jpg" alt="">
+  <div class="body-overlay"></div>
+  <div class="watermark wm-top-right">YUNKI<span class="red">RIDE</span></div>
+  <div class="body-content">
+    <div class="label">FACT</div>
+    <div class="subtitle">포르쉐의 진짜 DNA는,<br>레이싱이다.</div>
+    <div class="body-text">도로 위 포르쉐는 절반의 이야기다. 나머지 절반은 서킷에서 쓰였다. 창립 첫 해부터 지금까지, 포르쉐는 단 한 번도 레이스를 멈춘 적이 없다.</div>
+  </div>
+  <div class="page-num">06 / 12</div>
+</div>
+
+<!-- ============ CARD 7: 르망 ① ============ -->
+<div class="card-label">CARD 07 — LE MANS</div>
+<div class="card">
+  <img class="bg-img" src="photos/photo-016.jpg" alt="">
+  <div class="body-overlay"></div>
+  <div class="watermark wm-top-right">YUNKI<span class="red">RIDE</span></div>
+  <div class="body-content">
+    <div class="label">LE MANS</div>
+    <div class="subtitle">1970년대, 르망 24시를<br>점령한 그 시대.</div>
+    <div class="body-text">마티니 레이싱 컬러를 입은 포르쉐는 70년대 르망을 지배했다. 빨강·파랑·하늘색 스트라이프는 그 자체로 한 시대의 상징이 됐다.</div>
+  </div>
+  <div class="page-num">07 / 12</div>
+</div>
+
+<!-- ============ CARD 8: 르망 ② ============ -->
+<div class="card-label">CARD 08 — DETAIL</div>
+<div class="card">
+  <img class="bg-img" src="photos/photo-004.jpg" alt="">
+  <div class="body-overlay"></div>
+  <div class="watermark wm-top-right">YUNKI<span class="red">RIDE</span></div>
+  <div class="body-content">
+    <div class="label">DETAIL</div>
+    <div class="subtitle">르망 최다 우승, 19회.<br>포르쉐가 곧 르망이다.</div>
+    <div class="body-text">눈앞에 있던 935는 70년대 르망과 IMSA를 휩쓸었던 차. 24시간을 달릴 수 있는 내구성, 그리고 끝까지 포기하지 않는 엔지니어링이 이 차에 담겨 있다.</div>
+  </div>
+  <div class="page-num">08 / 12</div>
+</div>
+
+<!-- ============ CARD 9: F1 ============ -->
+<div class="card-label">CARD 09 — F1</div>
+<div class="card">
+  <img class="bg-img" src="photos/photo-011.jpg" alt="">
+  <div class="body-overlay"></div>
+  <div class="watermark wm-top-right">YUNKI<span class="red">RIDE</span></div>
+  <div class="body-content">
+    <div class="label">F1</div>
+    <div class="subtitle">포르쉐의 엔진은,<br>F1까지 갔다.</div>
+    <div class="body-text">1983–1987년, 맥라렌 F1은 'TAG-Porsche' 엔진을 얹고 달렸다. 4년 동안 25승, 드라이버 챔피언 3회. 포르쉐의 심장이 F1 그리드에서 가장 빨랐던 시절이다.</div>
+  </div>
+  <div class="page-num">09 / 12</div>
+</div>
+
+<!-- ============ CARD 10: 사막/랠리 ============ -->
+<div class="card-label">CARD 10 — RALLY</div>
+<div class="card">
+  <img class="bg-img" src="photos/photo-009.jpg" alt="">
+  <div class="body-overlay"></div>
+  <div class="watermark wm-top-right">YUNKI<span class="red">RIDE</span></div>
+  <div class="body-content">
+    <div class="label">RALLY</div>
+    <div class="subtitle">사막에서도,<br>포르쉐였다.</div>
+    <div class="body-text">파리-다카르 랠리, WRC, IMSA, 르망. 포장도로든 사막이든, 포르쉐는 어디든 갔다. 959는 1984년 파리-다카르를 제패했다.</div>
+  </div>
+  <div class="page-num">10 / 12</div>
+</div>
+
+<!-- ============ CARD 11: 엔딩 반전 ============ -->
+<div class="card-label">CARD 11 — NOW</div>
+<div class="card">
+  <img class="bg-img" src="photos/photo-020.jpg" alt="">
+  <div class="body-overlay"></div>
+  <div class="watermark wm-top-right">YUNKI<span class="red">RIDE</span></div>
+  <div class="body-content">
+    <div class="label">NOW</div>
+    <div class="subtitle">그리고 포르쉐는,<br>다시 전기로 돌아왔다.</div>
+    <div class="body-text">1900년 전기로 시작했던 포르쉐는, 2019년 'Taycan'으로 다시 전기로 돌아왔다. 125년의 원을 그리며, 그 사이에 쌓인 레이스 DNA를 그대로 안고서.</div>
+  </div>
+  <div class="page-num">11 / 12</div>
+</div>
+
+<!-- ============ CARD 12: 클로징 ============ -->
+<div class="card-label">CARD 12 — CLOSING</div>
+<div class="card">
+  <img class="bg-img closing-bg" src="photos/photo-003.jpg" alt="">
+  <div class="watermark closing-wm">YUNKI<span class="red">RIDE</span></div>
+  <div class="closing-content">
+    <div class="closing-head">포르쉐의 진짜 이야기,</div>
+    <div class="closing-big">이제 알겠지?</div>
+    <div class="closing-cta">도움이 됐다면 <strong>저장 📌 · 공유 ↗</strong><br>다음 매거진도 놓치지 마세요</div>
+    <div class="closing-handle">@yunkiride</div>
+  </div>
+</div>
+
+</body>
+</html>
